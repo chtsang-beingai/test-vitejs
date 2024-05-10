@@ -11,6 +11,7 @@ const AUDIO_SUPPORTED = AUDIO_FORMATS.filter((fmt) =>  MediaRecorder.isTypeSuppo
 const DEFAULT_LOCALE = "en-US";
 
 const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
+  const [ready, setReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false); // event.results[0].isFinal
   const [result, setResult] = useState(null);
@@ -23,6 +24,10 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
 
   const asr = useMemo(() => {
     const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+    if (!SpeechRecognition) {
+      console.error("SpeechRecognition is not supported");
+      return null;
+    }
     
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
@@ -61,10 +66,14 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
       }
     };
 
+    setReady(true);
+
     return recognition;
   }, [locale]);
 
   const start = useCallback(() => {
+    if (!asr) return;
+
     console.log('asr.start');
     if (isLoading) {
       asr.abort();
@@ -74,17 +83,21 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
   }, [isLoading, _resetState, asr]);
 
   const stop = useCallback(() => {
+    if (!asr) return;
+
     console.log('asr.stop');
     asr.stop();
   }, [asr]);
 
   const abort = useCallback(() => {
+    if (!asr) return;
+    
     console.log('asr.abort');
     asr.abort();
     _resetState();
   }, [asr, _resetState]);
 
-  return { start, stop, abort, state: { result, isFinal, isLoading } };
+  return { start, stop, abort, state: { ready, result, isFinal, isLoading } };
 };
 
 const useMediaRecorder = () => {
