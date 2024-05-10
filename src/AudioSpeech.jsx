@@ -1,6 +1,7 @@
 import mp3file from "./assets/outfoxing.mp3";
 import { useAudio } from "./audio/hooks";
-import { useBrowserAsr, useMediaRecorder } from "./speech/hooks";
+import { useMediaRecorder } from "./media/hooks";
+import { useBrowserAsr } from "./speech/hooks";
 
 const audioContext = new AudioContext();
 
