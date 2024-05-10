@@ -110,7 +110,7 @@ const useMediaRecorder = () => {
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         const recorder = new MediaRecorder(stream);
-        const chunks = [];
+        let chunks = [];
 
         recorder.ondataavailable = (event) => {
           chunks.push(event.data);
@@ -120,6 +120,7 @@ const useMediaRecorder = () => {
           const url = URL.createObjectURL(blob);
           console.log("recorder.onstop", {url});
           setAudioUrl(url);
+          chunks = []
         };
 
         setMediaRecorder(recorder);
