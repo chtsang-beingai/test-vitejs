@@ -13,7 +13,7 @@ const AudioSpeech = () => {
     <h1>AudioSpeech Test</h1>
 
     <hr />
-    <h2>Audio</h2>
+    <h2>AudioContext</h2>
     <button onClick={audio.play} style={{ marginRight: '4px' }}>Play</button>
     <button
       onClick={audio.stop}
@@ -23,7 +23,7 @@ const AudioSpeech = () => {
     </button>
 
     <hr />
-    <h2>Speech</h2>
+    <h2>SpeechRecognition</h2>
     <button
       onClick={asr.start}
       style={{ marginRight: '4px' }}
@@ -45,7 +45,7 @@ const AudioSpeech = () => {
     {asr.state?.result &&
       (
         <div>
-          result: {JSON.stringify(asr.state)}
+          result: {asr.state.result} (isFinal={`${asr.state.isFinal}`})
         </div>
       )
     }
