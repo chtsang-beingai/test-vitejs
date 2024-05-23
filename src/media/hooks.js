@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const AUDIO_FORMATS = [
   'audio/webm;codecs="opus"',
@@ -14,6 +14,8 @@ const useMediaRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
+  const [audioDevices, setAudioDevices] = useState(null);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   if (!navigator.mediaDevices) {
     console.error("navigator.mediaDevices is not supported");
@@ -28,7 +30,7 @@ const useMediaRecorder = () => {
   }, []);
 
   const init = useCallback(() => {
-    const constraints = { audio: true, video: false };
+    const constraints = { audio: true, video: false, deviceId: selectedDeviceId };
     navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         const recorder = new MediaRecorder(stream);
@@ -48,7 +50,7 @@ const useMediaRecorder = () => {
         setMediaRecorder(recorder);
       })
       .then(() => setReady(true));
-  }, []);
+  }, [selectedDeviceId]);
 
   const start = useCallback(() => {
     _resetState();
@@ -61,7 +63,19 @@ const useMediaRecorder = () => {
     setIsRecording(false);
   }, [mediaRecorder]);
 
-  return { init, start, stop, state: { ready, isRecording, audioUrl }};
+  const selectAudioDevice = useCallback(({ deviceId }) => {
+    audioDevices.find((device) => device.deviceId === deviceId) && setSelectedDeviceId(deviceId);
+  }, [audioDevices]);
+
+  useEffect(() => {
+    if (!ready) return;
+
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      setAudioDevices(devices.filter((device) => device.kind === "audioinput"));
+    });
+  }, [ready]);
+
+  return { init, start, stop, state: { ready, isRecording, audioUrl }, selectedDeviceId, audioDevices, selectAudioDevice};
 };
 
 export { useMediaRecorder };

@@ -55,6 +55,23 @@ const AudioSpeech = () => {
     <hr />
     <h2>MediaRecorder</h2>
     <div>ready: {`${media.state.ready}`}</div>
+    <div>
+      {media?.audioDevices?.length > 0 && (
+        <select onChange={(event) => media.selectAudioDevice({ deviceId: event.target.value })}>
+          {media?.audioDevices?.map((device) => {
+            return (
+              <option
+                key={device.deviceId}
+                value={device.deviceId}
+                selected={media.selectedDeviceId === device.deviceId}
+              >
+                {device.label}
+              </option>
+            );
+          })}
+        </select>
+      )}
+    </div>
     <button
       onClick={media.init}
       style={{ marginRight: '4px' }}
