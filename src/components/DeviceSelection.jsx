@@ -1,7 +1,25 @@
 
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
 
 const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
+
+  const selectAudioOutput = useCallback(() => {
+    if (navigator.mediaDevices?.selectAudioOutput) {
+      // only available in Firefox at the moment
+      // https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/selectAudioOutput
+      navigator.mediaDevices
+        .selectAudioOutput()
+        .then((device) => {
+          devices.selectOutputDevice({ deviceId: device.deviceId, refresh: true });
+          console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
+        })
+        .catch((err) => {
+          console.error(`${err.name}: ${err.message}`);
+        });
+    }
+  }, [devices]);
+
   return (
     <>
       {showInput && (
@@ -52,6 +70,11 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
           </div>
         )
       }
+      {navigator.mediaDevices?.selectAudioOutput && (
+        <>
+          <button onClick={() => selectAudioOutput()}>Select Audio Output</button>
+        </>
+      )}
     </>
   );
 };

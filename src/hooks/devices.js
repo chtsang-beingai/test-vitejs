@@ -43,8 +43,16 @@ const useAudioDevices = () => {
     }
   }, [inputDevices]);
 
-  const selectOutputDevice = useCallback(({ deviceId }) => {
-    const device = outputDevices.find((device) => device.deviceId === deviceId);
+  const selectOutputDevice = useCallback(({ deviceId, refresh = false }) => {
+    let outputs = outputDevices;
+    if (refresh) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        const _outputs = devices.filter((device) => device.kind === "audiooutput" && device.deviceId !== "default");
+        setOutputDevices(_outputs);
+        outputs = _outputs;
+      });
+    }
+    const device = outputs.find((device) => device.deviceId === deviceId);
     if (device) {
       setOutputDevice(device);
     }
