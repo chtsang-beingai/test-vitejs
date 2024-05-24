@@ -14,8 +14,12 @@ const useAudioDevices = () => {
     navigator.mediaDevices.getUserMedia(constraints)
       .then(() => {
         return navigator.mediaDevices.enumerateDevices().then((devices) => {
-          setInputDevices(devices.filter((device) => device.kind === "audioinput"));
-          setOutputDevices(devices.filter((device) => device.kind === "audiooutput"));
+          const inputs = devices.filter((device) => device.kind === "audioinput");
+          const outputs = devices.filter((device) => device.kind === "audiooutput");
+          setInputDevices(inputs);
+          setOutputDevices(outputs);
+          setInputDevice(inputs[0]?.deviceId);
+          setOutputDevice(outputs[0]?.deviceId);
           setReady(true);
         });
       })
