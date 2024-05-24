@@ -9,18 +9,12 @@ const AUDIO_FORMATS = [
 ];
 const AUDIO_SUPPORTED = AUDIO_FORMATS.filter((fmt) =>  MediaRecorder.isTypeSupported(fmt));
 
-const useMediaRecorder = () => {
+const useMediaRecorder = ({ devices }) => {
   const [ready, setReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
-  const [inputDevices, setInputDevices] = useState(null);
-  const [outputDevices, setOutputDevices] = useState(null);
-  const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
-  if (!navigator.mediaDevices) {
-    console.error("navigator.mediaDevices is not supported");
-  }
   if (AUDIO_SUPPORTED.length === 0) {
     console.error("No supported audio formats found");
   }
@@ -30,9 +24,17 @@ const useMediaRecorder = () => {
     setIsRecording(false);
   }, []);
 
-  const _initMediaRecorder = useCallback(({ deviceId }) => {
-    const constraints = { audio: true, video: false, deviceId };
-    return navigator.mediaDevices.getUserMedia(constraints)
+  useEffect(() => {
+    if (!devices.inputDevice) return;
+    setReady(false);
+
+    const constraints = {
+      audio: true,
+      video: false,
+      deviceId: devices.inputDevice.deviceId,
+    };
+
+    navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         const recorder = new MediaRecorder(stream);
         let chunks = [];
@@ -40,21 +42,19 @@ const useMediaRecorder = () => {
         recorder.ondataavailable = (event) => {
           chunks.push(event.data);
         };
+
         recorder.onstop = () => {
           const blob = new Blob(chunks, { type: AUDIO_SUPPORTED[0] });
           const url = URL.createObjectURL(blob);
-          console.log("recorder.onstop", {url});
           setAudioUrl(url);
           chunks = []
         };
 
         setMediaRecorder(recorder);
-      });
-  }, []);
-
-  const init = useCallback(() => {
-    _initMediaRecorder({ deviceId: selectedDeviceId }).then(() => setReady(true));
-  }, [_initMediaRecorder, selectedDeviceId]);
+      })
+      .then(() => setReady(true));
+      
+  }, [devices.inputDevice])
 
   const start = useCallback(() => {
     _resetState();
@@ -67,29 +67,9 @@ const useMediaRecorder = () => {
     setIsRecording(false);
   }, [mediaRecorder]);
 
-  const selectAudioDevice = useCallback(({ deviceId }) => {
-    if (inputDevices.find((device) => device.deviceId === deviceId)) {
-      setSelectedDeviceId(deviceId);
-      _initMediaRecorder({ deviceId });
-    }
-  }, [inputDevices, _initMediaRecorder]);
-
-  useEffect(() => {
-    if (!ready) return;
-
-    navigator.mediaDevices.enumerateDevices().then((devices) => {
-      setInputDevices(devices.filter((device) => device.kind === "audioinput"));
-      setOutputDevices(devices.filter((device) => device.kind === "audiooutput"));
-    });
-  }, [ready]);
-
   return {
-    init, start, stop,
+    start, stop,
     state: { ready, isRecording, audioUrl },
-    selectedDeviceId,
-    outputDevices,
-    inputDevices,
-    selectAudioDevice
   };
 };
 

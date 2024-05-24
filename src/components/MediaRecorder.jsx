@@ -1,38 +1,19 @@
 import PropTypes from 'prop-types';
 
+import { useMemo } from 'react';
 import { useMediaRecorder } from "../hooks/media";
 
 const MediaRecorder = ({ devices }) => {
-  const media = useMediaRecorder();
+  const media = useMediaRecorder({ devices });
+
+  const deviceLabel = useMemo(() => {
+    return devices.inputDevice?.label || 'None';
+  }, [devices.inputDevice]);
 
   return (
     <>
-      <div>ready: {`${media.state.ready}`}</div>
-      <div>
-        {media?.inputDevices?.length > 0 && (
-          <select
-            value={media.selectedDeviceId || ""}
-            onChange={(event) => media.selectAudioDevice({ deviceId: event.target.value })}
-          >
-            {media?.inputDevices?.map((device) => {
-              return (
-                <option
-                  key={device.deviceId}
-                  value={device.deviceId}
-                >
-                  {device.label}
-                </option>
-              );
-            })}
-          </select>
-        )}
-      </div>
-      <button
-        onClick={media.init}
-        style={{ marginRight: '4px' }}
-        disabled={media.state.ready}>
-        Init
-      </button>
+      <div>Input: <span style={{ fontWeight: 700 }}>{deviceLabel}</span></div>
+      <div>Ready: {`${media.state.ready}`}</div>
       <button
         onClick={media.start}
         style={{ marginRight: '4px' }}

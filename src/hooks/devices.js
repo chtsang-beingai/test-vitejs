@@ -8,6 +8,10 @@ const useAudioDevices = () => {
   const [inputDevice, setInputDevice] = useState(null); 
   const [outputDevice, setOutputDevice] = useState(null);
 
+  if (!navigator.mediaDevices) {
+    console.error("navigator.mediaDevices is not supported");
+  }
+
   useEffect(() => {
     const constraints = { audio: true, video: false };
     setLoading(true);
@@ -18,8 +22,8 @@ const useAudioDevices = () => {
           const outputs = devices.filter((device) => device.kind === "audiooutput");
           setInputDevices(inputs);
           setOutputDevices(outputs);
-          setInputDevice(inputs[0]?.deviceId);
-          setOutputDevice(outputs[0]?.deviceId);
+          if (inputs.length > 0) setInputDevice(inputs[0]);
+          if (outputs.length > 0) setOutputDevice(outputs[0]);
           setReady(true);
         });
       })
@@ -33,14 +37,16 @@ const useAudioDevices = () => {
   }, []);
 
   const selectInputDevice = useCallback(({ deviceId }) => {
-    if (inputDevices.find((device) => device.deviceId === deviceId)) {
-      setInputDevice(deviceId);
+    const device = inputDevices.find((device) => device.deviceId === deviceId);
+    if (device) {
+      setInputDevice(device);
     }
   }, [inputDevices]);
 
   const selectOutputDevice = useCallback(({ deviceId }) => {
-    if (outputDevices.find((device) => device.deviceId === deviceId)) {
-      setOutputDevice(deviceId);
+    const device = outputDevices.find((device) => device.deviceId === deviceId);
+    if (device) {
+      setOutputDevice(device);
     }
   }, [outputDevices]);
 

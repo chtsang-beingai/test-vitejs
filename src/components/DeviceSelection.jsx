@@ -8,7 +8,7 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
         <div>
           <span style={{ display: 'inline-block', minWidth: 60 }}>Input: </span>
           <select
-            value={devices.inputDevice || "none"}
+            value={devices.inputDevice?.deviceId || "none"}
             onChange={(event) => devices.selectInputDevice({ deviceId: event.target.value })}
           >
             {devices?.inputDevices?.length === 0 && (
@@ -32,7 +32,7 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
           <div>
             <span style={{ display: 'inline-block', minWidth: 60 }}>Output: </span>
             <select
-              value={devices.outputDevice || "none"}
+              value={devices.outputDevice?.deviceId || "none"}
               onChange={(event) => devices.selectOutputDevice({ deviceId: event.target.value })}
             >
               {devices?.outputDevices?.length === 0 && (

@@ -4,15 +4,16 @@ import mp3file from "../assets/outfoxing.mp3";
 import { useAudio } from "../hooks/audio";
 
 const AudioContext = ({ devices }) => {
-  const audio = useAudio({ path: mp3file, deviceId: devices.outputDevice });
+  const audio = useAudio({ path: mp3file, deviceId: devices.outputDevice?.deviceId });
 
-  const deviceLabel = useMemo(() => {
-    return devices.outputDevices.find((device) => device.deviceId === devices.outputDevice)?.label;
-  }, [devices.outputDevice, devices.outputDevices]);
+  const deviceLabel = useMemo(
+    () => devices.outputDevice?.label || 'None',
+    [devices.outputDevice]
+  );
 
   return (
     <>
-      <h4>Output: {deviceLabel}</h4>
+      <div>Output: <span style={{ fontWeight: 700 }}>{deviceLabel}</span></div>
       <button onClick={audio.play} style={{ marginRight: '4px' }}>Play</button>
       <button
         onClick={audio.stop}
