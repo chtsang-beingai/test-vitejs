@@ -24,6 +24,7 @@ const useAudio = ({ path, arrayBuffer, deviceId }) => {
 
   useEffect(() => {
     if (!deviceId) return;
+    if (!context.setSinkId) return;
 
     const _wrapper = async () => await context.setSinkId(deviceId);
     _wrapper();
