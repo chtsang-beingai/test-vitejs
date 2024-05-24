@@ -1,5 +1,5 @@
 import './App.css'
-import AudioSpeech from './AudioSpeech'
+import AudioSpeech from './components/AudioSpeech'
 
 function App() {
   return (

@@ -14,7 +14,8 @@ const useMediaRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
-  const [audioDevices, setAudioDevices] = useState(null);
+  const [inputDevices, setInputDevices] = useState(null);
+  const [outputDevices, setOutputDevices] = useState(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState(null);
 
   if (!navigator.mediaDevices) {
@@ -29,9 +30,9 @@ const useMediaRecorder = () => {
     setIsRecording(false);
   }, []);
 
-  const init = useCallback(() => {
-    const constraints = { audio: true, video: false, deviceId: selectedDeviceId };
-    navigator.mediaDevices.getUserMedia(constraints)
+  const _initMediaRecorder = useCallback(({ deviceId }) => {
+    const constraints = { audio: true, video: false, deviceId };
+    return navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         const recorder = new MediaRecorder(stream);
         let chunks = [];
@@ -48,9 +49,12 @@ const useMediaRecorder = () => {
         };
 
         setMediaRecorder(recorder);
-      })
-      .then(() => setReady(true));
-  }, [selectedDeviceId]);
+      });
+  }, []);
+
+  const init = useCallback(() => {
+    _initMediaRecorder({ deviceId: selectedDeviceId }).then(() => setReady(true));
+  }, [_initMediaRecorder, selectedDeviceId]);
 
   const start = useCallback(() => {
     _resetState();
@@ -64,18 +68,29 @@ const useMediaRecorder = () => {
   }, [mediaRecorder]);
 
   const selectAudioDevice = useCallback(({ deviceId }) => {
-    audioDevices.find((device) => device.deviceId === deviceId) && setSelectedDeviceId(deviceId);
-  }, [audioDevices]);
+    if (inputDevices.find((device) => device.deviceId === deviceId)) {
+      setSelectedDeviceId(deviceId);
+      _initMediaRecorder({ deviceId });
+    }
+  }, [inputDevices, _initMediaRecorder]);
 
   useEffect(() => {
     if (!ready) return;
 
     navigator.mediaDevices.enumerateDevices().then((devices) => {
-      setAudioDevices(devices.filter((device) => device.kind === "audioinput"));
+      setInputDevices(devices.filter((device) => device.kind === "audioinput"));
+      setOutputDevices(devices.filter((device) => device.kind === "audiooutput"));
     });
   }, [ready]);
 
-  return { init, start, stop, state: { ready, isRecording, audioUrl }, selectedDeviceId, audioDevices, selectAudioDevice};
+  return {
+    init, start, stop,
+    state: { ready, isRecording, audioUrl },
+    selectedDeviceId,
+    outputDevices,
+    inputDevices,
+    selectAudioDevice
+  };
 };
 
 export { useMediaRecorder };
