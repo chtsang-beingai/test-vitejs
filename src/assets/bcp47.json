@@ -1,0 +1,320 @@
+[
+  {
+    "locale": "ar-SA",
+    "language": "Arabic",
+    "region": "Saudi Arabia",
+    "description": "Arabic (Saudi Arabia)"
+  },
+  {
+    "locale": "bn-BD",
+    "language": "Bangla",
+    "region": "Bangladesh",
+    "description": "Bangla (Bangladesh)"
+  },
+  {
+    "locale": "bn-IN",
+    "language": "Bangla",
+    "region": "India",
+    "description": "Bangla (India)"
+  },
+  {
+    "locale": "cs-CZ",
+    "language": "Czech",
+    "region": "Czech Republic",
+    "description": "Czech (Czech Republic)"
+  },
+  {
+    "locale": "da-DK",
+    "language": "Danish",
+    "region": "Denmark",
+    "description": "Danish (Denmark)"
+  },
+  {
+    "locale": "de-AT",
+    "language": "German",
+    "region": "Austria",
+    "description": "Austrian German"
+  },
+  {
+    "locale": "de-CH",
+    "language": "German",
+    "region": "Switzerland",
+    "description": "\"Swiss\" German"
+  },
+  {
+    "locale": "de-DE",
+    "language": "German",
+    "region": "Germany",
+    "description": "Standard German (as spoken in Germany)"
+  },
+  {
+    "locale": "el-GR",
+    "language": "Greek",
+    "region": "Greece",
+    "description": "Modern Greek"
+  },
+  {
+    "locale": "en-AU",
+    "language": "English",
+    "region": "Australia",
+    "description": "Australian English"
+  },
+  {
+    "locale": "en-CA",
+    "language": "English",
+    "region": "Canada",
+    "description": "Canadian English"
+  },
+  {
+    "locale": "en-GB",
+    "language": "English",
+    "region": "United Kingdom",
+    "description": "British English"
+  },
+  {
+    "locale": "en-IE",
+    "language": "English",
+    "region": "Ireland",
+    "description": "Irish English"
+  },
+  {
+    "locale": "en-IN",
+    "language": "English",
+    "region": "India",
+    "description": "Indian English"
+  },
+  {
+    "locale": "en-NZ",
+    "language": "English",
+    "region": "New Zealand",
+    "description": "New Zealand English"
+  },
+  {
+    "locale": "en-US",
+    "language": "English",
+    "region": "United States",
+    "description": "US English"
+  },
+  {
+    "locale": "en-ZA",
+    "language": "English",
+    "region": "South Africa",
+    "description": "English (South Africa)"
+  },
+  {
+    "locale": "es-AR",
+    "language": "Spanish",
+    "region": "Argentina",
+    "description": "Argentine Spanish"
+  },
+  {
+    "locale": "es-CL",
+    "language": "Spanish",
+    "region": "Chile",
+    "description": "Chilean Spanish"
+  },
+  {
+    "locale": "es-CO",
+    "language": "Spanish",
+    "region": "Columbia",
+    "description": "Colombian Spanish"
+  },
+  {
+    "locale": "es-ES",
+    "language": "Spanish",
+    "region": "Spain",
+    "description": "Castilian Spanish (as spoken in Central-Northern Spain)"
+  },
+  {
+    "locale": "es-MX",
+    "language": "Spanish",
+    "region": "Mexico",
+    "description": "Mexican Spanish"
+  },
+  {
+    "locale": "es-US",
+    "language": "Spanish",
+    "region": "United States",
+    "description": "American Spanish"
+  },
+  {
+    "locale": "fi-FI",
+    "language": "Finnish",
+    "region": "Finland",
+    "description": "Finnish (Finland)"
+  },
+  {
+    "locale": "fr-BE",
+    "language": "French",
+    "region": "Belgium",
+    "description": "Belgian French"
+  },
+  {
+    "locale": "fr-CA",
+    "language": "French",
+    "region": "Canada",
+    "description": "Canadian French"
+  },
+  {
+    "locale": "fr-CH",
+    "language": "French",
+    "region": "Switzerland",
+    "description": "\"Swiss\" French"
+  },
+  {
+    "locale": "fr-FR",
+    "language": "French",
+    "region": "France",
+    "description": "Standard French (especially in France)"
+  },
+  {
+    "locale": "he-IL",
+    "language": "Hebrew",
+    "region": "Israel",
+    "description": "Hebrew (Israel)"
+  },
+  {
+    "locale": "hi-IN",
+    "language": "Hindi",
+    "region": "India",
+    "description": "Hindi (India)"
+  },
+  {
+    "locale": "hu-HU",
+    "language": "Hungarian",
+    "region": "Hungary",
+    "description": "Hungarian (Hungary)"
+  },
+  {
+    "locale": "id-ID",
+    "language": "Indonesian",
+    "region": "Indonesia",
+    "description": "Indonesian (Indonesia)"
+  },
+  {
+    "locale": "it-CH",
+    "language": "Italian",
+    "region": "Switzerland",
+    "description": "\"Swiss\" Italian"
+  },
+  {
+    "locale": "it-IT",
+    "language": "Italian",
+    "region": "Italy",
+    "description": "Standard Italian (as spoken in Italy)"
+  },
+  {
+    "locale": "ja-JP",
+    "language": "Japanese",
+    "region": "Japan",
+    "description": "Japanese (Japan)"
+  },
+  {
+    "locale": "ko-KR",
+    "language": "Korean",
+    "region": "Republic of Korea",
+    "description": "Korean (Republic of Korea)"
+  },
+  {
+    "locale": "nl-BE",
+    "language": "Dutch",
+    "region": "Belgium",
+    "description": "Belgian Dutch"
+  },
+  {
+    "locale": "nl-NL",
+    "language": "Dutch",
+    "region": "The Netherlands",
+    "description": "Standard Dutch (as spoken in The Netherlands)"
+  },
+  {
+    "locale": "no-NO",
+    "language": "Norwegian",
+    "region": "Norway",
+    "description": "Norwegian (Norway)"
+  },
+  {
+    "locale": "pl-PL",
+    "language": "Polish",
+    "region": "Poland",
+    "description": "Polish (Poland)"
+  },
+  {
+    "locale": "pt-BR",
+    "language": "Portugese",
+    "region": "Brazil",
+    "description": "Brazilian Portuguese"
+  },
+  {
+    "locale": "pt-PT",
+    "language": "Portugese",
+    "region": "Portugal",
+    "description": "European Portuguese (as written and spoken in Portugal)"
+  },
+  {
+    "locale": "ro-RO",
+    "language": "Romanian",
+    "region": "Romania",
+    "description": "Romanian (Romania)"
+  },
+  {
+    "locale": "ru-RU",
+    "language": "Russian",
+    "region": "Russian Federation",
+    "description": "Russian (Russian Federation)"
+  },
+  {
+    "locale": "sk-SK",
+    "language": "Slovak",
+    "region": "Slovakia",
+    "description": "Slovak (Slovakia)"
+  },
+  {
+    "locale": "sv-SE",
+    "language": "Swedish",
+    "region": "Sweden",
+    "description": "Swedish (Sweden)"
+  },
+  {
+    "locale": "ta-IN",
+    "language": "Tamil",
+    "region": "India",
+    "description": "Indian Tamil"
+  },
+  {
+    "locale": "ta-LK",
+    "language": "Tamil",
+    "region": "Sri Lanka",
+    "description": "Sri Lankan Tamil"
+  },
+  {
+    "locale": "th-TH",
+    "language": "Thai",
+    "region": "Thailand",
+    "description": "Thai (Thailand)"
+  },
+  {
+    "locale": "tr-TR",
+    "language": "Turkish",
+    "region": "Turkey",
+    "description": "Turkish (Turkey)"
+  },
+  {
+    "locale": "zh-CN",
+    "language": "Chinese",
+    "region": "China",
+    "description": "Mainland China, simplified characters"
+  },
+  {
+    "locale": "zh-HK",
+    "language": "Chinese",
+    "region": "Hong Kong",
+    "description": "Hong Kong, traditional characters"
+  },
+  {
+    "locale": "zh-TW",
+    "language": "Chinese",
+    "region": "Taiwan",
+    "description": "Taiwan, traditional characters"
+  }
+]

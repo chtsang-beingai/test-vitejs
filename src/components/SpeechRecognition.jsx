@@ -1,12 +1,36 @@
+import { useCallback, useState } from 'react';
+import bcp47 from '../assets/bcp47.json';
 import { useBrowserAsr } from '../hooks/speech';
 
 const SpeechRecognition = () => {
-  const asr = useBrowserAsr({ locale: "en-US" });
+  const [locale, setLocale] = useState("en-US");
+  const asr = useBrowserAsr({ locale });
+
+  const onChangeLocale = useCallback((event) => {
+    const newLocale = bcp47.find((item) => item.locale === event.target.value);
+    if (!newLocale) return;
+    setLocale(newLocale.locale);
+  }, []);
 
   return (
     <>
-      {!asr.state?.ready && <div>(Not supported)</div>
-      }
+      {!asr.state?.ready && <div>(Not supported)</div>}
+      <div>
+        <input
+          type="text"
+          list="locales"
+          defaultValue={locale}
+          onChange={onChangeLocale}
+          style={{ minWidth: 200, marginBottom: 4 }}
+        />
+        <datalist id="locales">
+          {bcp47.map((item) => {
+            return (
+              <option key={item.locale} value={item.locale}>{item.language} - {item.description}</option>
+            );
+          })}
+        </datalist>
+      </div>
       <button
         onClick={asr.start}
         style={{ marginRight: '4px' }}
