@@ -1,8 +1,8 @@
 import { useAudioDevices } from "../hooks/devices";
-import AudioContext from "./AudioContext";
-import DeviceSelection from "./DeviceSelection";
-import MediaRecorder from "./MediaRecorder";
-import SpeechRecognition from "./SpeechRecognition";
+import AudioContext from "../components/AudioContext";
+import DeviceSelection from "../components/DeviceSelection";
+import MediaRecorder from "../components/MediaRecorder";
+import SpeechRecognition from "../components/SpeechRecognition";
 
 const AudioSpeech = () => {
   const devices = useAudioDevices();
