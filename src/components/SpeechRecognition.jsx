@@ -14,7 +14,7 @@ const SpeechRecognition = () => {
 
   return (
     <>
-      {!asr.state?.ready && <div>(Not supported)</div>}
+      {!asr.state?.ready && <div>(Not ready yet. Click button &quot;Init&quot;.)</div>}
       <div>
         <input
           type="text"
@@ -31,6 +31,12 @@ const SpeechRecognition = () => {
           })}
         </datalist>
       </div>
+      <button
+        onClick={asr.init}
+        style={{ marginRight: '4px' }}
+        disabled={asr.state.ready}>
+        Init
+      </button>
       <button
         onClick={asr.start}
         style={{ marginRight: '4px' }}

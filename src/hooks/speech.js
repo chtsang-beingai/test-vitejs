@@ -1,12 +1,13 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_LOCALE = "en-US";
 
-const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
+const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE }) => {
   const [ready, setReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false); // event.results[0].isFinal
   const [result, setResult] = useState(null);
+  const [asr, setAsr] = useState(null);
 
   const _resetState = useCallback(() => {
     setIsFinal(false);
@@ -14,7 +15,7 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
     setIsLoading(false);
   }, []);
 
-  const asr = useMemo(() => {
+  const _initAsr = useCallback(() => {
     const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     if (!SpeechRecognition) {
       console.error("SpeechRecognition is not supported");
@@ -54,14 +55,19 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
       setResult(result);
 
       if (final) {
-        asr.stop();
+        recognition.stop();
       }
     };
 
     setReady(true);
+    setAsr(recognition);
 
     return recognition;
   }, [locale]);
+
+  const init = useCallback(() => {
+    setAsr(_initAsr());
+  }, [_initAsr]);
 
   const start = useCallback(() => {
     if (!asr) return;
@@ -89,7 +95,17 @@ const useBrowserAsr = ({ locale = DEFAULT_LOCALE }) => {
     _resetState();
   }, [asr, _resetState]);
 
-  return { start, stop, abort, state: { ready, result, isFinal, isLoading } };
+  useEffect(() => {
+    if (!autoInit) return;
+
+    setAsr(_initAsr());
+  }, [autoInit, _initAsr]);
+
+  const value = useMemo(() => (
+    { init, start, stop, abort, state: { ready, result, isFinal, isLoading } }
+  ), [abort, isFinal, isLoading, ready, result, init, start, stop]);
+
+  return value;
 };
 
 export { useBrowserAsr };
