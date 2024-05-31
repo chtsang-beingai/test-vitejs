@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const useAudioDevices = () => {
+const useAudioDevices = ({ autoInit = true } = { autoInit: true }) => {
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
   const [inputDevices, setInputDevices] = useState([]);
@@ -12,7 +12,7 @@ const useAudioDevices = () => {
     console.error("navigator.mediaDevices is not supported");
   }
 
-  useEffect(() => {
+  const _init = useCallback(() => {
     const constraints = { audio: true, video: false };
     setLoading(true);
     navigator.mediaDevices.getUserMedia(constraints)
@@ -36,6 +36,16 @@ const useAudioDevices = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (!autoInit) return;
+
+    _init();
+  }, [_init, autoInit]);
+
+  const initDevices = useCallback(() => {
+    _init();
+  }, [_init]);
 
   const selectInputDevice = useCallback(({ deviceId }) => {
     const device = inputDevices.find((device) => device.deviceId === deviceId);
@@ -66,11 +76,12 @@ const useAudioDevices = () => {
     inputDevices,
     outputDevice,
     outputDevices,
+    initDevices,
     selectInputDevice,
     selectOutputDevice,
   }), [
     loading, ready, inputDevice, inputDevices, outputDevice, outputDevices,
-    selectInputDevice, selectOutputDevice,
+    initDevices, selectInputDevice, selectOutputDevice,
   ])
 
   return value;

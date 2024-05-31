@@ -1,11 +1,11 @@
-import { useAudioDevices } from "../hooks/devices";
 import AudioContext from "../components/AudioContext";
 import DeviceSelection from "../components/DeviceSelection";
 import MediaRecorder from "../components/MediaRecorder";
 import SpeechRecognition from "../components/SpeechRecognition";
+import { useAudioDevices } from "../hooks/devices";
 
 const AudioSpeech = () => {
-  const devices = useAudioDevices();
+  const devices = useAudioDevices({ autoInit: false });
 
   return <div>
     <h1>AudioSpeech Test</h1>

@@ -22,12 +22,14 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
 
   return (
     <>
+      {!devices.ready && <div>(Not ready yet. Click button &quot;Init&quot;.)</div>}
       {showInput && (
         <div>
           <span style={{ display: 'inline-block', minWidth: 60 }}>Input: </span>
           <select
             value={devices.inputDevice?.deviceId || "none"}
             onChange={(event) => devices.selectInputDevice({ deviceId: event.target.value })}
+            disabled={!devices.ready}
           >
             {devices?.inputDevices?.length === 0 && (
               <option value='none'>None</option>
@@ -52,6 +54,7 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
             <select
               value={devices.outputDevice?.deviceId || "none"}
               onChange={(event) => devices.selectOutputDevice({ deviceId: event.target.value })}
+              disabled={!devices.ready}
             >
               {devices?.outputDevices?.length === 0 && (
                 <option value='none'>None</option>
@@ -73,6 +76,14 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
       {navigator.mediaDevices?.selectAudioOutput && (
         <button onClick={() => selectAudioOutput()}>Select Audio Output</button>
       )}
+
+      <button
+        onClick={devices.initDevices}
+        style={{ marginRight: '4px' }}
+        disabled={devices.ready}
+      >
+        Init
+      </button>
     </>
   );
 };
