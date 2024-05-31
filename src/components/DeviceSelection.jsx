@@ -71,9 +71,7 @@ const DeviceSelection = ({ devices, showInput = true, showOutput = true }) => {
         )
       }
       {navigator.mediaDevices?.selectAudioOutput && (
-        <>
-          <button onClick={() => selectAudioOutput()}>Select Audio Output</button>
-        </>
+        <button onClick={() => selectAudioOutput()}>Select Audio Output</button>
       )}
     </>
   );

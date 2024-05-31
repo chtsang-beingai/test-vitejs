@@ -16,17 +16,18 @@ const useAudioDevices = () => {
     const constraints = { audio: true, video: false };
     setLoading(true);
     navigator.mediaDevices.getUserMedia(constraints)
-      .then(() => {
-        return navigator.mediaDevices.enumerateDevices().then((devices) => {
-          const inputs = devices.filter((device) => device.kind === "audioinput" && device.deviceId !== "default");
-          const outputs = devices.filter((device) => device.kind === "audiooutput" && device.deviceId !== "default");
-          setInputDevices(inputs);
-          setOutputDevices(outputs);
-          setInputDevice(inputs[0]);
-          setOutputDevice(outputs[0]);
-          setReady(true);
-        });
-      })
+      .then(() => 
+        navigator.mediaDevices.enumerateDevices()
+          .then((devices) => {
+            const inputs = devices.filter((device) => device.kind === "audioinput" && device.deviceId !== "default");
+            const outputs = devices.filter((device) => device.kind === "audiooutput" && device.deviceId !== "default");
+            setInputDevices(inputs);
+            setOutputDevices(outputs);
+            setInputDevice(inputs[0]);
+            setOutputDevice(outputs[0]);
+            setReady(true);
+          })
+      )
       .catch((error) => {      
         console.error("Error on getUserMedia", error);
         setReady(false);
