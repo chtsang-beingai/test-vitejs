@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const AUDIO_FORMATS = [
   'audio/webm;codecs="opus"',
@@ -67,10 +67,12 @@ const useMediaRecorder = ({ devices }) => {
     setIsRecording(false);
   }, [mediaRecorder]);
 
-  return {
+  const value = useMemo(() => ({
     start, stop,
     state: { ready, isRecording, audioUrl },
-  };
+  }), [audioUrl, isRecording, ready, start, stop]);
+
+  return value;
 };
 
 export { useMediaRecorder };

@@ -104,8 +104,14 @@ const useAudio2 = ({ path, arrayBuffer, deviceId }) => {
     audioElem.src = "";
     setIsPlaying(false);
   }, [audioElem]);
+
+  const value = useMemo(() => ({
+    play,
+    stop,
+    state: { isPlaying }
+  }), [play, stop, isPlaying]);
   
-  return { play, stop, state: { isPlaying } };
+  return value;
 };
 
 export { useAudio, useAudio2 };
