@@ -1,27 +1,40 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import bcp47 from '../assets/bcp47.json';
 import { useBrowserAsr } from '../hooks/speech';
 
 const SpeechRecognition = () => {
-  const [locale, setLocale] = useState("en-US");
-  const asr = useBrowserAsr({ locale });
+  const endRef = useRef();
+  const [locale, setLocale] = useState(null);
+  const [logs, setLogs] = useState([]);
+  const asr = useBrowserAsr({ locale, setLogs });
 
   const onChangeLocale = useCallback((event) => {
     const newLocale = bcp47.find((item) => item.locale === event.target.value);
-    if (!newLocale) return;
-    setLocale(newLocale.locale);
+    if (!newLocale) {
+      setLocale(null);
+    } else {
+      setLocale(newLocale.locale);
+    }
   }, []);
+
+  useEffect(() => {
+    if (endRef.current) {
+      endRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [logs]);
 
   return (
     <>
-      {!asr.state?.ready && <div>(Not ready yet. Click button &quot;Init&quot;.)</div>}
-      <div>
+      {!asr.state?.ready && <div>(Pick a locale, then click button &quot;Init&quot;.)</div>}
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: "baseline", gap: 4 }}>
         <input
           type="text"
           list="locales"
-          defaultValue={locale}
+          value={locale || ''}
           onChange={onChangeLocale}
-          style={{ minWidth: 200, marginBottom: 4 }}
+          style={{ minWidth: 240, marginBottom: 4 }}
+          placeholder='Select or enter to search a locale'
+          disabled={asr.state.ready}
         />
         <datalist id="locales">
           {bcp47.map((item) => {
@@ -30,11 +43,12 @@ const SpeechRecognition = () => {
             );
           })}
         </datalist>
+        <button onClick={() => setLocale("en-US")} disabled={asr.state.ready}>en-US</button>
       </div>
       <button
         onClick={asr.init}
         style={{ marginRight: '4px' }}
-        disabled={asr.state.ready}>
+        disabled={!locale || asr.state.ready}>
         Init
       </button>
       <button
@@ -63,6 +77,36 @@ const SpeechRecognition = () => {
           </div>
         )
       }
+      <div style={{
+        height: 100,
+        overflowY: 'auto',
+        border: '1px solid lightgray',
+        position: 'relative',
+        borderRadius: 5,
+        marginTop: 4,
+      }}>
+        <div
+          style={{
+            position: 'sticky',
+            top: 0,
+            height: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <button style={{ cursor: "pointer", margin: 4 }} onClick={() => setLogs([])}>X</button>
+        </div>
+        {
+          logs.map((item, index) => {
+            return (
+              <div key={index}>{item}</div>
+            );
+          })
+        }
+        <div ref={endRef} />
+      </div >
     </>
   );
 };
