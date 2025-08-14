@@ -2,12 +2,18 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_LOCALE = "en-US";
 
-const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE }) => {
+const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE, setLogs = () => {} }) => {
   const [ready, setReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false); // event.results[0].isFinal
   const [result, setResult] = useState(null);
   const [asr, setAsr] = useState(null);
+
+  const _log = useCallback((message) => {
+    const ts = new Date().toISOString();
+    setLogs((prevLogs) => [...prevLogs, `${ts} - ${message}`]);
+  }, [setLogs
+]);
 
   const _resetState = useCallback(() => {
     setIsFinal(false);
@@ -29,26 +35,32 @@ const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE }) => {
     recognition.lang = locale;
 
     recognition.onerror = (event) => {
+      _log(`onerror: ${event.error} | ${JSON.stringify(event)}`);
       console.error(`Speech recognition error detected: ${event.error}`);
     };
     
     recognition.onstart = () => {
+      _log(`onstart`);
       setIsLoading(true);
     };
 
     recognition.onend = () => {
+      _log(`onend`);
       setIsLoading(false);
     };
 
     recognition.onspeechstart = () => {
+      _log(`onspeechstart`);
       setIsLoading(true);
     };
 
     recognition.onspeechend = () => {
+      _log(`onspeechend`);
       setIsLoading(false);
     };
 
-    recognition.onresult = (event) => {     
+    recognition.onresult = (event) => {
+      _log(`onresult: ${JSON.stringify(event)}`);
       const result = event.results[0][0].transcript;
       const final = !!event?.results[0]?.isFinal;
       setIsFinal(final);
@@ -63,37 +75,42 @@ const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE }) => {
     setAsr(recognition);
 
     return recognition;
-  }, [locale]);
+  }, [_log, locale]);
 
   const init = useCallback(() => {
+    _log(`DEBUG: init`);
     setAsr(_initAsr());
-  }, [_initAsr]);
+  }, [_initAsr, _log]);
 
   const start = useCallback(() => {
     if (!asr) return;
 
     console.log('asr.start');
+    _log(`DEBUG: start`);
     if (isLoading) {
+      _log(`DEBUG: start: abort`);
       asr.abort();
     }
     _resetState();
     setTimeout(() => asr.start(), 0);
-  }, [isLoading, _resetState, asr]);
+  }, [asr, isLoading, _resetState, _log]);
 
   const stop = useCallback(() => {
     if (!asr) return;
 
     console.log('asr.stop');
+    _log(`DEBUG: stop`);
     asr.stop();
-  }, [asr]);
+  }, [asr, _log]);
 
   const abort = useCallback(() => {
     if (!asr) return;
 
     console.log('asr.abort');
+    _log(`DEBUG: abort`);
     asr.abort();
     _resetState();
-  }, [asr, _resetState]);
+  }, [asr, _resetState, _log]);
 
   useEffect(() => {
     if (!autoInit) return;
