@@ -27,12 +27,18 @@ const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE, setLogs = ()
       console.error("SpeechRecognition is not supported");
       return null;
     }
-    
+
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
     recognition.maxAlternatives = 1;
     recognition.lang = locale;
+    _log(`DEBUG: SpeechRecognition: 
+      processLocally=${recognition.processLocally} | 
+      lang=${recognition.lang} |
+      available=${recognition.available} |
+      install=${recognition.install}
+    `);
 
     recognition.onerror = (event) => {
       _log(`onerror: ${event.error} | ${JSON.stringify(event)}`);
@@ -60,12 +66,12 @@ const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE, setLogs = ()
     };
 
     recognition.onresult = (event) => {
-      _log(`onresult: ${JSON.stringify(event)}`);
       const result = event.results[0][0].transcript;
       const final = !!event?.results[0]?.isFinal;
+      _log(`onresult: result=${result} isFinal=${final}`);
       setIsFinal(final);
       setResult(result);
-
+      
       if (final) {
         recognition.stop();
       }

@@ -4,8 +4,11 @@ import { useBrowserAsr } from '../hooks/speech';
 
 const SpeechRecognition = () => {
   const endRef = useRef();
+
   const [locale, setLocale] = useState(null);
   const [logs, setLogs] = useState([]);
+  const [isMax, setIsMax] = useState(false);
+
   const asr = useBrowserAsr({ locale, setLogs });
 
   const onChangeLocale = useCallback((event) => {
@@ -73,7 +76,7 @@ const SpeechRecognition = () => {
         asr.state?.result &&
         (
           <div>
-            result: {asr.state.result} (isFinal={`${asr.state.isFinal}`})
+            result: {asr.state?.result} (isFinal={`${asr.state?.isFinal}`})
           </div>
         )
       }
@@ -84,6 +87,19 @@ const SpeechRecognition = () => {
         position: 'relative',
         borderRadius: 5,
         marginTop: 4,
+        padding: 2,
+        fontSize: '0.8em',
+        ...(
+          isMax && {
+            position: 'fixed',
+            top: 8,
+            right: 8,
+            minWidth: 300,
+            width: '50%',
+            minHeight: 200,
+            height: '40%',
+            background: 'black',
+          }),
       }}>
         <div
           style={{
@@ -93,10 +109,21 @@ const SpeechRecognition = () => {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'flex-start',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-end'
           }}
         >
-          <button style={{ cursor: "pointer", margin: 4 }} onClick={() => setLogs([])}>X</button>
+          <button
+            style={{ cursor: "pointer", margin: 4, }}
+            onClick={() => setIsMax((prev) => !prev)}
+            title="Toggle Maximize">
+            {isMax ? '<' : '^'}
+          </button>
+          <button
+            style={{ cursor: "pointer", margin: 4, marginRight: 12 }}
+            onClick={() => setLogs([])}
+            title="Clear">
+            X
+          </button>
         </div>
         {
           logs.map((item, index) => {
