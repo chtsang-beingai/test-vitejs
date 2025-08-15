@@ -303,18 +303,24 @@
     "locale": "zh-CN",
     "language": "Chinese",
     "region": "China",
-    "description": "Mainland China, simplified characters"
+    "description": "Mainland China, Simplified Chinese"
   },
   {
     "locale": "zh-HK",
-    "language": "Chinese",
+    "language": "Cantonese (for Safari)",
     "region": "Hong Kong",
-    "description": "Hong Kong, traditional characters"
+    "description": "Hong Kong, Traditional Chinese"
+  },
+  {
+    "locale": "yue-HK",
+    "language": "Cantonese (for Chrome)",
+    "region": "Hong Kong",
+    "description": "Hong Kong, Traditional Chinese"
   },
   {
     "locale": "zh-TW",
     "language": "Chinese",
     "region": "Taiwan",
-    "description": "Taiwan, traditional characters"
+    "description": "Taiwan, Traditional Chinese"
   }
 ]

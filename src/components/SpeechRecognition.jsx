@@ -35,14 +35,19 @@ const SpeechRecognition = () => {
           list="locales"
           value={locale || ''}
           onChange={onChangeLocale}
-          style={{ minWidth: 240, marginBottom: 4 }}
+          style={{
+            minWidth: 240,
+            marginBottom: 4
+          }}
           placeholder='Select or enter to search a locale'
           disabled={asr.state.ready}
         />
         <datalist id="locales">
           {bcp47.map((item) => {
             return (
-              <option key={item.locale} value={item.locale}>{item.language} - {item.description}</option>
+              <option key={item.locale} value={item.locale}>
+                {item.language} - {item.description}
+              </option>
             );
           })}
         </datalist>
