@@ -29,6 +29,7 @@ const ScreenResolution = () => {
       <hr />
       <h1>Screen Resolution</h1>
       <p>{JSON.stringify(screenResolution, null, 4)}</p>
+      <p>{JSON.stringify(window.navigator.userAgent)}</p>
     </div>
   );
 };
