@@ -119,7 +119,7 @@ const SpeechRecognition = () => {
             {isMax ? '<' : '^'}
           </button>
           <button
-            style={{ cursor: "pointer", margin: 4, marginRight: 12 }}
+            style={{ cursor: "pointer", margin: 4, marginRight: 4 }}
             onClick={() => setLogs([])}
             title="Clear">
             X

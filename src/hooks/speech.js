@@ -25,6 +25,7 @@ const useBrowserAsr = ({ autoInit = false, locale = DEFAULT_LOCALE, setLogs = ()
     const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
     if (!SpeechRecognition) {
       console.error("SpeechRecognition is not supported");
+      _log(`ERROR: SpeechRecognition is not supported`);
       return null;
     }
 
