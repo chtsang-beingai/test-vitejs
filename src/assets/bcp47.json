@@ -306,8 +306,14 @@
     "description": "Mainland China, Simplified Chinese"
   },
   {
+    "locale": "zh-HK",
+    "language": "Cantonese (for Safari)",
+    "region": "Hong Kong",
+    "description": "Hong Kong, Traditional Chinese"
+  },
+  {
     "locale": "yue-HK",
-    "language": "Cantonese",
+    "language": "Cantonese (for Chrome)",
     "region": "Hong Kong",
     "description": "Hong Kong, Traditional Chinese"
   },
